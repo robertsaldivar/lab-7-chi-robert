@@ -9,4 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This: I'm Robert and I'm updating this markdown file.
+This: I'm Robert and I'm updating this markdown file here.
+
+```{r}
+library(tidyverse)
+
+gc_df <- read_csv("gc_df.csv")
+```
+
+
+WE are asking: Is there a significant difference in recommended gun control action for male and female respondents (should guns be easier, harder, to get?)
