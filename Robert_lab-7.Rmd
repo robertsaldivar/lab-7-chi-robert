@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This: I'm Robert and I'm updating this markdown file here.
 
-```{r}
+```{r, echo=FALSE}
 library(tidyverse)
 
 gc_df <- read_csv("gc_df.csv")
@@ -34,3 +34,26 @@ rownames(get_guns) <- c("Female","Male")
 
 ```
 
+My name is Nate the colaborataor and I am going to be doing chi-square test for independence! 
+
+We ask: "Is there a significant association between sex and opinion on whether guns sould be more difficult, easier, or the same difficulty to get?"
+
+```{r}
+# Let us look at the proporitons: 
+
+guns_prop <- prop.table(as.matrix(get_guns), 1 ) #Using the prop.table function with the as.matrix class (, 1 takes all the feamle counts and finds the proportions of respondents; finding proportions by rows )
+#Point out actual proportions with Chi-Squared function 
+
+#Run chi-square test for independence (is there a significant association between sex and access to guns) 
+
+guns_x2 <- chisq.test(get_guns)
+
+guns_x2
+
+#H0: There is no difference in the proportions for female and male respondenets 
+#Reject the null hypothesis (p < 0.05)!
+```
+"Recommended government action on gun access differed significantly between male (n = ) and feamle (n =) respondents ($\chi^2$(`rguns_x2$parameter`) = ....., p < 0.0001). Notably, a much higher proportion of female respondents (57.4%) recommend making it more diffucult to get guns, compared to 40.4% for male respondents" 
+
+#guns_x2$stdres #Any values greater than 2 different enough from an expected value would be driving significance 
+#What is driving a significant result? 

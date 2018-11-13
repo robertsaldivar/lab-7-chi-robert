@@ -130,16 +130,14 @@ $(document).ready(function () {
 
 
 <p>This: I’m Robert and I’m updating this markdown file here.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages ----------------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## </code></pre>
 <pre><code>## v ggplot2 3.0.0     v purrr   0.2.5
 ## v tibble  1.4.2     v dplyr   0.7.6
 ## v tidyr   0.8.1     v stringr 1.3.1
 ## v readr   1.1.1     v forcats 0.3.0</code></pre>
-<pre><code>## -- Conflicts -------------------------------------------------------------------------------------------- tidyverse_conflicts() --
+<pre><code>## 
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>gc_df &lt;- read_csv(&quot;gc_df.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   caseid = col_integer(),
@@ -152,6 +150,41 @@ $(document).ready(function () {
 ## )</code></pre>
 <p>WE are asking: Is there a significant difference in recommended gun control action for male and female respondents (should guns be easier, harder, to get?)</p>
 <p>This: I’m Nate and I’m updating this markdown file here.</p>
+<p>Robert: data wrangling and counts</p>
+<pre class="r"><code>get_guns &lt;- gc_df%&gt;%
+  filter(gender !=&quot;NA&quot;, make_get_guns !=&quot;NA&quot;) %&gt;%
+  count(gender, make_get_guns) %&gt;%
+  spread(make_get_guns, n) %&gt;%
+  select(-gender)
+
+rownames(get_guns) &lt;- c(&quot;Female&quot;,&quot;Male&quot;)</code></pre>
+<pre><code>## Warning: Setting row names on a tibble is deprecated.</code></pre>
+<p>My name is Nate the colaborataor and I am going to be doing chi-square test for independence!</p>
+<p>We ask: “Is there a significant association between sex and opinion on whether guns sould be more difficult, easier, or the same difficulty to get?”</p>
+<pre class="r"><code># Let us look at the proporitons: 
+
+guns_prop &lt;- prop.table(as.matrix(get_guns), 1 ) #Using the prop.table function with the as.matrix class (, 1 takes all the feamle counts and finds the proportions of respondents; finding proportions by rows )
+#Point out actual proportions with Chi-Squared function 
+
+#Run chi-square test for independence (is there a significant association between sex and access to guns) 
+
+guns_x2 &lt;- chisq.test(get_guns)
+
+guns_x2</code></pre>
+<pre><code>## 
+##  Pearson's Chi-squared test
+## 
+## data:  get_guns
+## X-squared = 203.6, df = 2, p-value &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#H0: There is no difference in the proportions for female and male respondenets 
+#Reject the null hypothesis (p &lt; 0.05)!</code></pre>
+<p>“Recommended government action on gun access differed significantly between male (n = ) and feamle (n =) respondents (<span class="math inline">\(\chi^2\)</span>(<code>rguns_x2$parameter</code>) = ….., p &lt; 0.0001). Notably, a much higher proportion of female respondents (57.4%) recommend making it more diffucult to get guns, compared to 40.4% for male respondents”</p>
+<div id="guns_x2stdres-any-values-greater-than-2-different-enough-from-an-expected-value-would-be-driving-significance" class="section level1">
+<h1>guns_x2$stdres #Any values greater than 2 different enough from an expected value would be driving significance</h1>
+</div>
+<div id="what-is-driving-a-significant-result" class="section level1">
+<h1>What is driving a significant result?</h1>
+</div>
 
 
 
